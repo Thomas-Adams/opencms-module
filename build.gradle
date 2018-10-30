@@ -3,7 +3,7 @@ apply plugin: 'java-gradle-plugin'
 apply plugin: 'maven'
 
 group 'org.adams.opencms'
-version '1.0-SNAPSHOT'
+version '0.0.8'
 
 sourceCompatibility = 1.8
 
