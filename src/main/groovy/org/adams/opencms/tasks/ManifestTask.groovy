@@ -1,69 +1,120 @@
 package org.adams.opencms.tasks
 
-import groovy.transform.ToString
 import groovy.xml.MarkupBuilder
 import org.adams.opencms.beans.*
+import org.adams.opencms.extension.OpenCmsExtension
 import org.adams.opencms.file.ModuleFileHandler
 import org.gradle.api.DefaultTask
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 
 import java.text.SimpleDateFormat
 
-@ToString
 class ManifestTask extends DefaultTask implements AccessExtension {
 
+    Manifest manifest = new Manifest()
     Module module
     ModuleFileHandler moduleFileHandler = new ModuleFileHandler()
     List<ModuleFile> moduleFiles;
 
-    File targetFile
-    Manifest manifest = new Manifest()
+    File manifestFile
+    File moduleDir
+    File sourceDir
 
     @Input
-    Module getModule() {
-        return module
+    File getSourceDir() {
+        return sourceDir
     }
 
-    void setModule(Module module) {
-        this.module = module
-        manifest.module = module
+    void setSourceDir(File sourceDir) {
+        this.sourceDir = sourceDir
+    }
+
+    @InputDirectory
+    File getModuleDir() {
+        return moduleDir
+    }
+
+    void setModuleDir(File moduleDir) {
+        this.moduleDir = moduleDir
+    }
+
+    @OutputFile
+    File getManifestFile() {
+        return manifestFile
+    }
+
+    void setManifestFile(File manifestFile) {
+        this.manifestFile = manifestFile
+    }
+
+
+    void init(OpenCmsExtension opencms) {
+        List<Relation> relations = new ArrayList<>()
+        List<ExportPoint> exportPoints = new ArrayList<>()
+        List<Resource> resources = new ArrayList<>()
+        List<Dependency> dependencies = new ArrayList<>()
+        List<ResourceType> resourceTypes = new ArrayList<>()
+        List<ExplorerType> explorerTypes = new ArrayList<>()
+        List<Parameter> parameters = new ArrayList<>()
+        module = new Module()
+        Info info = new Info()
+
+
+        File modulePropertiesFile = project.file(opencms.modulePropertiesFileName)
+        File dependencyXmlFile = project.file(opencms.dependencyXmlFileName)
+        File explorerTypeXmlFile = project.file(opencms.explorerTypeXmlFileName)
+        File exportPointXmlFile = project.file(opencms.exportPointXmlFileName)
+        File parameterXmlFile = project.file(opencms.parameterXmlFileName)
+        File relationXmlFile = project.file(opencms.relationXmlFileName)
+        File resourceTypeXmlFile = project.file(opencms.resourceTypeXmlFileName)
+        File resourceXmlFile = project.file(opencms.resourceXmlFileName)
+
+
+        module = opencms.parseModuleProperties(modulePropertiesFile)
+        module.info = opencms.parseInfoProperties(modulePropertiesFile)
+        module.relations = opencms.parseRelations(relationXmlFile)
+        module.exportPoints = opencms.parseExportPoints(exportPointXmlFile)
+        module.resources = opencms.parseResources(resourceXmlFile)
+        module.dependencies = opencms.parseDependencies(dependencyXmlFile)
+        module.resourceTypes = opencms.parseResourceTypes(resourceTypeXmlFile)
+        module.explorerTypes = opencms.parseExplorerTypes(explorerTypeXmlFile)
+        module.parameters = opencms.parseParameters(parameterXmlFile)
+
+
+        moduleFileHandler = new ModuleFileHandler(sourceDir)
+        moduleFileHandler.openCmsExtension = opencms
+        moduleFiles = moduleFileHandler.initModuleFiles()
         manifest.info = module.info
+        manifest.module = module
+        manifest.moduleFiles = new ModuleFiles()
+        manifest.moduleFiles.setFiles(moduleFiles)
+        debugModuleFiles()
     }
 
-    @Input
-    ModuleFileHandler getModuleFileHandler() {
-        return moduleFileHandler
+
+    void debugModuleFiles() {
+        manifest.moduleFiles.files.each { f ->
+            logger.debug("destination : " + f.destination)
+        }
     }
 
-    void setModuleFileHandler(ModuleFileHandler moduleFileHandler) {
-        this.moduleFileHandler = moduleFileHandler
-    }
-
-    @Input
-    File getTargetFile() {
-        return targetFile
-    }
-
-    void setTargetFile(File targetFile) {
-        this.targetFile = targetFile
-    }
-
-    List<ModuleFile> getModuleFiles() {
-        return moduleFiles
-    }
-
-    void setModuleFiles(List<ModuleFile> moduleFiles) {
-        this.moduleFiles = moduleFiles
-    }
 
     @TaskAction
-    def generateManifest() {
-        moduleFileHandler.initModuleFiles()
+    void generate() {
+        println("ManifestTask generate something ....")
+        println(moduleDir.getAbsolutePath())
+        println("Is existing? : " + moduleDir.exists())
+        println("Is directory? : " + moduleDir.isDirectory())
+        init(getOpencmsExtension())
         prepareDependentJars()
         createManifestFile()
+
     }
+
 
     void prepareDependentJars() {
         List<ModuleFile> jarfiles = new ArrayList<>()
@@ -75,42 +126,46 @@ class ManifestTask extends DefaultTask implements AccessExtension {
             println "jar file : " + it.name
             logger.debug("jar file : " + it.name)
             ModuleFile mf = new ModuleFile()
-            mf.source = 'system/modules/${opencms.name}/lib/' + it.name
-            mf.destination = 'system/modules/${opencms.name}/lib/' + it.name
+            mf.source = "system/modules/${getOpencmsExtension().moduleName}/lib/" + it.name
+            mf.destination = "system/modules/${getOpencmsExtension().moduleName}/lib/" + it.name
             mf.type = 'binary'
             mf.dateCreated = new Date()
-            mf.userCreated = new Date()
+            mf.userCreated = opencmsExt('user')
+            mf.dateLastModified = new Date()
+            mf.userLastModified = opencmsExt('user')
             jarfiles.add(mf)
         }
-        moduleFileHandler.moduleFiles.addAll(jarfiles)
-        module.moduleFiles = moduleFileHandler.moduleFiles
-        manifest.moduleFiles.setFiles(moduleFileHandler.moduleFiles)
 
+        if (getOpencmsExtension().buildJar) {
+            // modules own jar file
+            ModuleFile mfjar = new ModuleFile()
+            mfjar.source = "system/modules/${getOpencmsExtension().moduleName}/lib/" + project.getRootProject().name + '.jar'
+            mfjar.destination = mfjar.source
+            mfjar.type = 'binary'
+            mfjar.dateCreated = new Date()
+            mfjar.userCreated = opencmsExt('user')
+            mfjar.dateLastModified = new Date()
+            mfjar.userLastModified = opencmsExt('user')
+            jarfiles.add(mfjar)
+        }
 
+        manifest.moduleFiles.files.addAll(jarfiles)
+        debugModuleFiles()
     }
 
 
     def createManifestFile() {
-
-
         SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z")
         def root = "<export></export>"
-        //StringWriter writer = new StringWriter()
-        if (!targetFile.exists()) {
-            targetFile.parentFile.mkdirs()
-            targetFile.createNewFile()
+        if (!manifestFile.exists()) {
+            manifestFile.parentFile.mkdirs()
+            manifestFile.createNewFile()
         }
-        println(targetFile.getAbsolutePath())
-        println(targetFile.exists())
-        println(targetFile.isDirectory())
-        FileWriter writer = new FileWriter(targetFile)
+        FileWriter writer = new FileWriter(manifestFile)
         def builder = new MarkupBuilder(writer)
 
         Info info1 = manifest.info
         Module module1 = manifest.module
-        List<ModuleFile> mfiles = moduleFileHandler.getModuleFiles()
-        mfiles.addAll(this.jarDependencies)
-        moduleFiles.files = mfiles;
 
 
         builder.export() {
@@ -171,30 +226,22 @@ class ManifestTask extends DefaultTask implements AccessExtension {
             }
 
             files {
-                moduleFiles.files.each { f ->
+                manifest.moduleFiles.files.each { f ->
+                    println("modulefile " + f)
                     file {
-                        destination {
-                            f.destination
+                        destination(f.destination)
+                        type(f.type)
+                        if (getOpencmsExtension().createStructureUUID) {
+                            uuidstructure(f.uuidStructure)
                         }
-                        type {
-                            f.type
+                        if (getOpencmsExtension().createResourceUUID) {
+                            uuidresource(f.uuidResource)
                         }
-                        if (extension.createStructureUUID) {
-                            uuidstructure {
-                                f.uuidStructure
-                            }
-                        }
-                        if (extension.createResourceUUID) {
-                            uuidresource {
-                                f.uuidResource
-                            }
-                        }
-                        datecreated {
-                            f.dateCreated
-                        }
-                        flags {
-                            f.flags
-                        }
+                        datelastmodified(f.dateLastModified)
+                        userlastmodified(f.userLastModified)
+                        datecreated(f.dateCreated)
+                        usercreated(f.userCreated)
+                        flags(f.flags)
                         properties {
                             f.properties.each { prop ->
                                 if (prop.type == PropertyType.SIMPLE) {
@@ -221,20 +268,22 @@ class ManifestTask extends DefaultTask implements AccessExtension {
                             }
                         }
                         accesscontrol {
-                            f.accessControl.accessEntries.each { ace ->
-                                accessentry {
-                                    uuidprincipal {
-                                        ace.principal
-                                    }
-                                    flags {
-                                        ace.flags
-                                    }
-                                    permissionset {
-                                        allowed {
-                                            ace.permissionSet.allowed
+                            if (f.accessControl) {
+                                f.accessControl.accessEntries.each { ace ->
+                                    accessentry {
+                                        uuidprincipal {
+                                            ace.principal
                                         }
-                                        denied {
-                                            ace.permissionSet.denied
+                                        flags {
+                                            ace.flags
+                                        }
+                                        permissionset {
+                                            allowed {
+                                                ace.permissionSet.allowed
+                                            }
+                                            denied {
+                                                ace.permissionSet.denied
+                                            }
                                         }
                                     }
                                 }
@@ -247,5 +296,6 @@ class ManifestTask extends DefaultTask implements AccessExtension {
             }
         }
         writer.flush()
+        writer.close()
     }
 }

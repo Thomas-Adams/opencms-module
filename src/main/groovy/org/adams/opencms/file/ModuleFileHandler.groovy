@@ -2,6 +2,8 @@ package org.adams.opencms.file
 
 import groovy.json.JsonSlurper
 import org.adams.opencms.beans.*
+import org.adams.opencms.extension.OpenCmsExtension
+import org.adams.opencms.tasks.AccessExtension
 import org.apache.commons.io.FilenameUtils
 
 import java.text.SimpleDateFormat
@@ -58,11 +60,13 @@ import java.text.SimpleDateFormat
  * During the parsing of all _meta.json files both approaches are taken into account, however the first approach is
  * the one which comes with the export of the module.
  */
-class ModuleFileHandler {
+class ModuleFileHandler implements AccessExtension {
 
     SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z")
 
     File moduleDir
+
+    OpenCmsExtension openCmsExtension
 
     List<ModuleFile> moduleFiles = new ArrayList<ModuleFile>();
 
@@ -71,7 +75,8 @@ class ModuleFileHandler {
         if (new File(fileName).isDirectory())
             return 'folder'
         String ext = FilenameUtils.getExtension(fileName)
-        if (ext.endsWith('txt') || ext.endsWith('css') || ext.endsWith('js') || ext.endsWith('json') || ext.endsWith('xml') || ext.endsWith('scss') || ext.endsWith('ts'))
+        if (ext.endsWith('txt') || ext.endsWith('css') || ext.endsWith('pom') || ext.endsWith('js') || ext.endsWith('json') || ext.endsWith('xml') || ext
+                .endsWith('scss') || ext.endsWith('ts'))
             return 'plain'
         if (ext.endsWith('jsp'))
             return 'jsp'
@@ -126,6 +131,10 @@ class ModuleFileHandler {
                 mf.setDestination(fileName)
                 mf.flags = 0
                 mf.dateCreated = new Date()
+                mf.dateLastModified = mf.dateCreated
+                mf.userLastModified = openCmsExtension.user
+                mf.userCreated = openCmsExtension.user
+
 
                 //TODO: distinguish _meta.json for file and folder
 
