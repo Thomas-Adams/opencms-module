@@ -1,21 +1,22 @@
 package org.adams.opencms
 
 
-import org.adams.opencms.tasks.MyTask
+import org.adams.opencms.tasks.ManifestTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Copy
+import org.gradle.api.tasks.bundling.Zip
 
 class OpenCmsModulePlugin implements Plugin<Project> {
 
     static final String GROUP_NAME = 'OpenCms'
     static final String EXT_NAME = 'opencms'
-    static final String MODULE_TASK = 'module'
-    static final String MANIFEST_COPY_FILES = 'copyModulesFiles'
-    static final String MANIFEST_PREPARE_TASK = 'moduleManifestPreparation'
-    static final String MANIFEST_COPY_JAR = 'copyJarFile'
-    static final String MANIFEST_COPY_DEPENDENT_JARS = 'copyDependentJarFiles'
+    static final String MODULE_COPY_FILES = 'copyModulesFiles'
+    static final String MODULE_MANIFEST_TASK = 'moduleManifestPreparation'
+    static final String MODILE_COPY_JAR = 'copyJarFile'
+    static final String MODULE_ZIP_MODULE = 'zipModule'
+    static final String MODULE_COPY_DEPENDENT_JARS = 'copyDependentJarFiles'
     static final String DEFAULT_VFS_PATH = 'src/main/vfs'
 
 
@@ -28,7 +29,7 @@ class OpenCmsModulePlugin implements Plugin<Project> {
 
 
 
-        project.task(MANIFEST_COPY_FILES,
+        project.task(MODULE_COPY_FILES,
                 type: Copy,
                 group: GROUP_NAME,
                 description: 'copies module file to modules build directory.'
@@ -46,42 +47,42 @@ class OpenCmsModulePlugin implements Plugin<Project> {
             }
         }
 
-        project.task(MANIFEST_COPY_JAR,
+        project.task(MODILE_COPY_JAR,
                 type: Copy,
                 group: GROUP_NAME,
                 description: 'copies the jar file to modules build directory.') {
             project.afterEvaluate { p ->
-                dependsOn = ['jar', 'war', MANIFEST_COPY_FILES]
+                dependsOn = ['jar', 'war', MODULE_COPY_FILES]
 
-                from (p.file("build/libs")) {
+                from(p.file("build/libs")) {
                     include '**/*.jar'
                 }
-                into (p.file("build/${opencms.moduleName}_${opencms.moduleVersion}/system/modules/${opencms.moduleName}/lib"))
+                into(p.file("build/${opencms.moduleName}_${opencms.moduleVersion}/system/modules/${opencms.moduleName}/lib"))
             }
         }
-        project.task(MANIFEST_COPY_DEPENDENT_JARS,
+        project.task(MODULE_COPY_DEPENDENT_JARS,
                 type: Copy,
                 group: GROUP_NAME,
                 description: 'copies the depemndent jar files to modules build directory.') {
             project.afterEvaluate { p ->
-                dependsOn = ['jar', MANIFEST_COPY_FILES, MANIFEST_COPY_JAR]
+                dependsOn = ['jar', MODULE_COPY_FILES, MODILE_COPY_JAR]
 
                 Configuration conf = project.getConfigurations().getByName('compile')
                 conf.each { cf ->
                     logger.debug("conf namr: " + cf)
                     from cf
-                    into (p.file("build/${opencms.moduleName}_${opencms.moduleVersion}/system/modules/${opencms.moduleName}/lib"))
+                    into(p.file("build/${opencms.moduleName}_${opencms.moduleVersion}/system/modules/${opencms.moduleName}/lib"))
                 }
 
             }
         }
         project.task(
-                MANIFEST_PREPARE_TASK,
-                type: MyTask,
+                MODULE_MANIFEST_TASK,
+                type: ManifestTask,
                 group: GROUP_NAME,
                 description: 'Generates the module manifest.xml file.') {
             project.afterEvaluate { p ->
-                dependsOn = ['jar', MANIFEST_COPY_FILES, MANIFEST_COPY_FILES]
+                dependsOn = ['jar', MODILE_COPY_JAR, MODULE_COPY_FILES, MODULE_COPY_DEPENDENT_JARS]
                 println("Module name: " + opencms.moduleName)
                 moduleDir = project.file("build/${opencms.moduleName}_${opencms.moduleVersion}")
                 manifestFile = new File(moduleDir.getAbsolutePath() + "/manifest.xml")
@@ -90,6 +91,23 @@ class OpenCmsModulePlugin implements Plugin<Project> {
 
             }
         }
-    }
 
+        project.task(
+                MODULE_ZIP_MODULE,
+                type: Zip,
+                group: GROUP_NAME,
+                description: 'Zips the modfule files.') {
+            project.afterEvaluate { p ->
+                dependsOn = ['jar', MODILE_COPY_JAR, MODULE_COPY_FILES, MODULE_COPY_DEPENDENT_JARS, MODULE_MANIFEST_TASK]
+                archiveName = "${opencms.moduleName}_${opencms.moduleVersion}.zip"
+                def moduleZipDir = p.file("build/${p.opencms.moduleName}_${p.opencms.moduleVersion}")
+                // default value via java plugin: destinationDir = project.distsDir aka build/distributions
+                inputs.dir moduleZipDir
+                outputs.file "${destinationDir}/${archiveName}"
+
+                from(moduleZipDir)
+                includeEmptyDirs = true
+            }
+        }
+    }
 }

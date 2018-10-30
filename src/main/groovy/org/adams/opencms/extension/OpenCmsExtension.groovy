@@ -21,5 +21,6 @@ class OpenCmsExtension implements AccessExtension, ModulePropertiesReaderTrait, 
     boolean buildJar = true
     String moduleName
     String moduleVersion
+    String user = "Admin"
 
 }
