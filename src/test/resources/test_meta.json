@@ -1,0 +1,8 @@
+{
+  "type" : "plain",
+  "properties" : {
+    "export" : false,
+    "cache" : "container-element",
+    "timeout" : 30000
+  }
+}

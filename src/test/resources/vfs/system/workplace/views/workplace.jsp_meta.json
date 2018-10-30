@@ -1,0 +1,19 @@
+{
+    "destination": "system/workplace/views/workplace.jsp",
+    "source": "",
+    "type": "jsp",
+    "flags": 0,
+    "properties": [
+        {
+            "type": "SIMPLE",
+            "key": "Title",
+            "value": "Top Frameset Definition"
+        }
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "840ccc67-11b7-11db-91cd-fdbae480bac9",
+    "uuidresource": "9c0a79be-f058-11d8-ba65-db38cc8f19d7",
+    "datecreated": "Mon, 27 Jun 2005 10:00:00 CEST"
+}

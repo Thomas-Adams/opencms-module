@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <resource uri="/system/workplace/commons/list-csv.jsp"/>
+    <resource uri="/system/workplace/commons/list-explorer.jsp"/>
+    <resource uri="/system/workplace/commons/list-print.jsp"/>
+    <resource uri="/system/workplace/resources/admin/"/>
+    <resource uri="/system/workplace/resources/list/"/>
+    <resource uri="/system/workplace/views/admin/"/>
+    <resource uri="/system/modules/org.opencms.workplace.administration/"/>
+</resources>

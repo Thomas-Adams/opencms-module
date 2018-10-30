@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exportpoints>
+    <exportpoint uri="/system/modules/org.adams.opencms.synchron.module/classes/" destination="WEB-INF/classes/"/>
+</exportpoints>

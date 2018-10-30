@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resourcetypes>
+    <type class="org.opencms.file.types.CmsResourceTypeXmlContent" name="rebrushaftersales_campaign" id="113126">
+        <properties>
+            <property>
+                <name>template-elements</name>
+                <value type="shared"><![CDATA[/system/modules/com.bmw.master.rebrush/templates/pages/individual/owners/service/aftersales_campaign/aftersales_campaign.jsp]]></value>
+            </property>
+        </properties>
+        <param name="schema">/system/modules/com.bmw.master.rebrush/templates/pages/individual/owners/service/aftersales_campaign/aftersales_campaign.xsd</param>
+    </type>
+</resourcetypes>

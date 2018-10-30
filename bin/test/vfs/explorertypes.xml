@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<explorertypes>
+    <!--
+    CREATE A SEPARATE PAGE FOR THE TYPES FROM THE INTERNATIONAL MASTER
+     -->
+    <explorertype name="bmw_master_rebrush" key="com.fileicon.bmw_master_rebrush" icon="xmlcontent.gif" reference="xmlcontent">
+        <newresource uri="newresource.jsp?page=bmw_master_rebrush" order="115" autosetnavigation="false" autosettitle="false" info="com.desc.bmw_master_rebrush"/>
+    </explorertype>
+
+    <explorertype name="rebrushhomepage" key="fileicon.rebrushhomepage" icon="xmlcontent.gif" reference="xmlcontent">
+        <newresource page="bmw_master_rebrush" uri="newresource_xmlcontent.jsp?newresourcetype=rebrushhomepage" order="120048" autosetnavigation="false" autosettitle="false"/>
+        <accesscontrol>
+            <accessentry principal="GROUP.Administrators" permissions="+r+v+w+c"/>
+            <accessentry principal="GROUP.Projectmanagers" permissions="+r+v+w+c"/>
+            <accessentry principal="GROUP.Users" permissions="+r+v+w+c"/>
+        </accesscontrol>
+    </explorertype>
+
+    <explorertype name="rebrushaftersales_campaign" key="fileicon.rebrushaftersales_campaign" icon="xmlcontent.gif" reference="xmlcontent">
+        <newresource page="bmw_master_rebrush" uri="newresource_xmlcontent.jsp?newresourcetype=rebrushaftersales_campaign" order="113126" autosetnavigation="false" autosettitle="false"/>
+        <accesscontrol>
+            <accessentry principal="GROUP.Administrators" permissions="+r+v+w+c"/>
+            <accessentry principal="GROUP.Projectmanagers" permissions="+r+v+w+c"/>
+            <accessentry principal="GROUP.Users" permissions="+r+v+w+c"/>
+        </accesscontrol>
+    </explorertype>
+</explorertypes>

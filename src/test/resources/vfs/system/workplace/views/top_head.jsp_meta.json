@@ -1,0 +1,24 @@
+{
+    "destination": "system/workplace/views/top_head.jsp",
+    "source": "system/workplace/views/top_head.jsp",
+    "type": "jsp",
+    "flags": 0,
+    "properties": [
+        {
+            "type": "SIMPLE",
+            "key": "Title",
+            "value": "Top Frameset - Head Frame"
+        },
+        {
+            "type": "SIMPLE",
+            "key": "export",
+            "value": "false"
+        }
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "840f3d69-11b7-11db-91cd-fdbae480bac9",
+    "uuidresource": "9fa61712-f058-11d8-ba65-db38cc8f19d7",
+    "datecreated": "Mon, 27 Jun 2005 10:00:00 CEST"
+}
