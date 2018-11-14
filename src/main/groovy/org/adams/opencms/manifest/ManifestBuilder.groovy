@@ -4,99 +4,69 @@ import groovy.xml.MarkupBuilder
 import org.adams.opencms.beans.*
 import org.adams.opencms.extension.OpenCmsExtension
 import org.adams.opencms.file.ModuleFileHandler
-import org.adams.opencms.tasks.AccessExtension
-import org.gradle.api.Project
+import org.adams.opencms.parser.*
 
 import java.text.SimpleDateFormat
 
-class ManifestBuilder implements AccessExtension {
+class ManifestBuilder {
 
 
-    private OpenCmsExtension extension
+    def createManifestFile(File targetFile, File moduleDir, OpenCmsExtension extension) {
+        Manifest manifest = new Manifest()
+        manifest.info.creator = extension.userInstalled
+        manifest.info.opencms_version = extension.opencCmsVersion
+        manifest.info.info_project = extension.project
+        manifest.info.export_version = extension.exportVersion
+        manifest.module.version = extension.version
+        manifest.module.userInstalled = extension.userInstalled
+        manifest.module.dateCreated = extension.dateCreated
+        manifest.module.importScript = extension.importScript
+        manifest.module.group = extension.group
+        manifest.module.excludeResources = extension.excludeResources
+        manifest.module.name = extension.name
+        manifest.module.clazz = extension.clazz
+        manifest.module.resources = extension.resources
+        manifest.module.exportPoints = extension.exportPoints
+        manifest.module.dependencies = extension.dependencies
+        manifest.module.dateInstalled = extension.dateInstalled
+        manifest.module.authorname = extension.authorname
+        manifest.module.authoremail = extension.authoremail
+        manifest.module.description = extension.description
+        manifest.module.exportMode = extension.exportMode
+        manifest.module.nicename = extension.nicename
 
-    ModuleFileHandler moduleFileHandler = new ModuleFileHandler()
-
-    Project project
-
-    File targetFile
-    Manifest manifest
-
-    void setProject(Project project) {
-        this.project = project
-    }
-    List<ModuleFile> jarDependencies
-
-    ManifestBuilder(List<ModuleFile> jarDependencies ) {
-        this.project = getProject()
-        this.setOpenCmsExtension(getOpencmsExtension())
-        this.jarDependencies = jarDependencies
-    }
-
-    void setOpenCmsExtension(OpenCmsExtension extension) {
-        this.extension = extension
-
-        manifest.info.creator = this.extension.userInstalled
-        manifest.info.opencms_version = this.extension.opencCmsVersion
-        manifest.info.info_project = this.extension.project
-        manifest.info.export_version = this.extension.exportVersion
-        manifest.module.version = this.extension.version
-        manifest.module.userInstalled = this.extension.userInstalled
-        manifest.module.dateCreated = this.extension.dateCreated
-        manifest.module.importScript = this.extension.importScript
-        manifest.module.group = this.extension.group
-        manifest.module.parameters = this.extension.parameters
-        manifest.module.excludeResources = this.extension.excludeResources
-        manifest.module.name = this.extension.name
-        manifest.module.clazz = this.extension.clazz
-        manifest.module.resources = this.extension.resources
-        manifest.module.exportPoints = this.extension.exportPoints
-        manifest.module.dependencies = this.extension.dependencies
-        manifest.module.dateInstalled = this.extension.dateInstalled
-        manifest.module.authorname = this.extension.authorname
-        manifest.module.authoremail = this.extension.authoremail
-        manifest.module.description = this.extension.description
-        manifest.module.exportMode = this.extension.exportMode
-        manifest.module.nicename = this.extension.nicename
-        this.moduleFileHandler.moduleDir = project.file(this.extension.moduleDir)
-        this.targetFile = project(this.extension.manifestTargetFile)
-    }
-
-
-    private void validateTaskProperties() {
-        if(!manifest.module.name())
-            throw new org.gradle.api.InvalidUserDataException('The "moduleName" must be set in order to generate manifest')
-        if(!manifest.module.version)
-            throw new org.gradle.api.InvalidUserDataException('The "moduleVersion" must be set in order to generate manifest')
-        if(!manifest.module.authorname)
-            throw new org.gradle.api.InvalidUserDataException('The "moduleAuthor" must be set in order to generate manifest')
-        if(!manifest.module.exportPoints)
-            throw new org.gradle.api.InvalidUserDataException('The "export points" must be set in order to generate manifest')
-        if(!moduleFileHandler.moduleDir)
-            throw new org.gradle.api.InvalidUserDataException('The "moduleVfsDir" must be set in order to generate manifest')
-        if(!targetFile || !targetFile.exists())
-            throw new org.gradle.api.InvalidUserDataException("The \"moduleVfsDir\" target file (${targetFile.path}) must exist in order to generate manifest")
-        if(!manifest.info.opencms_version)
-            throw new org.gradle.api.InvalidUserDataException('The "opencmsVersion" must be set in order to generate manifest')
-    }
-
-    def createManifestFile() {
-
-
-        validateTaskProperties()
 
         SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z")
+        ModuleFileHandler moduleFileHandler = new ModuleFileHandler()
+
         def root = "<export></export>"
-        //StringWriter writer = new StringWriter()
         FileWriter writer = new FileWriter(targetFile)
         def builder = new MarkupBuilder(writer)
-
+        builder.setDoubleQuotes(true)
+        builder.mkp.xmlDeclaration(version: "1.0", encoding: "utf-8")
         Info info1 = manifest.info
         Module module1 = manifest.module
-        List<ModuleFile> mfiles = moduleFileHandler.getModuleFiles()
-        mfiles.addAll(this.jarDependencies)
-        moduleFiles.files = mfiles;
+
+        DependencyXmlParser dependencyXmlParser = new DependencyXmlParser()
+        List<Dependency> dependencyList = dependencyXmlParser.parseDependencies(new File(moduleDir.getAbsolutePath() + File.separator + 'dependencies.xml'))
+
+        ExplorerTypeXmlParser explorerTypeXmlParser = new ExplorerTypeXmlParser()
+        List<ExplorerType> explorerTypeList = explorerTypeXmlParser.parseDependencies(new File(moduleDir.getAbsolutePath() + File.separator + 'explorertypes.xml'))
+
+        ExportPointXmlParser exportPointXmlParser = new ExportPointXmlParser()
+        List<ExportPoint> exportPointList = exportPointXmlParser.parseDependencies(new File(moduleDir.getAbsolutePath() + File.separator + 'exportpoints.xml'))
+
+        ParameterXmlParser parameterXmlParser = new ParameterXmlParser()
+        List<Parameter> parameterList = parameterXmlParser.parseDependencies(new File(moduleDir.getAbsolutePath() + File.separator + 'parameters.xml'))
+
+        ResourceXmlParser resourceXmlParser = new ResourceXmlParser()
+        List<Resource> resourceList = resourceXmlParser.parseDependencies(new File(moduleDir.getAbsolutePath() + File.separator + 'resources.xml'))
+
+        ResourceTypeXmlParser resourceTypeXmlParser = new ResourceTypeXmlParser()
+        List<ResourceType> resourceTypeList = resourceTypeXmlParser.parseDependencies(new File(moduleDir.getAbsolutePath() + File.separator + 'resourcetypes.xml'))
 
 
+        List<ModuleFile> mfiles = moduleFileHandler.getModuleFiles(moduleDir, extension)
         builder.export() {
             info() {
                 opencms_version(info1.opencms_version)
@@ -104,7 +74,6 @@ class ManifestBuilder implements AccessExtension {
                 infoproject({ getMkp().yieldUnescaped('<![CDATA[' + info1.info_project + ']]>') })
                 export_version(info1.export_version)
             }
-
             module() {
                 name(module1.name)
                 nicename(module1.nicename)
@@ -119,13 +88,13 @@ class ManifestBuilder implements AccessExtension {
                 datecreated(formatter.format(module1.dateCreated))
                 userinstalled(module1.userInstalled)
                 dateinstalled(formatter.format(module1.dateInstalled))
-                dependencies {
-                    module1.dependencies.each { e ->
-                        dependency(e.name)
+                dependencies() {
+                    dependencyList.each { e ->
+                        dependency(name:e.name, version:e.version)
                     }
                 }
-                exportpoints {
-                    module1.exportPoints.each {
+                exportpoints() {
+                    exportPointList.each {
                         e ->
                             exportpoint() {
                                 uri(e.uri)
@@ -133,29 +102,71 @@ class ManifestBuilder implements AccessExtension {
                             }
                     }
                 }
-                resources {
-                    module1.resources.each {
+                resources() {
+                    resourceList.each {
                         e ->
                             ('resource'(uri: e.uri) {
                             })
                     }
                 }
-                excluderesources {
+                excluderesources() {
                     module1.excludeResources.each {
                         e ->
                             ('excluderesource'(uri: e.uri) {
                             })
                     }
                 }
-                parameters {
-                    module1.parameters.each {
-                        e -> parameter(name: e.name, e.value)
+                parameters() {
+                    parameterList.each {
+                        e -> param(name: e.name, e.value)
+                    }
+                }
+
+                resourcetypes() {
+                    resourceTypeList.each { r ->
+                        'type'('class': r.clazz, name: r.name, id: r.id) {
+                            r.params.each { pa ->
+                                param(name: pa.name, pa.value)
+                            }
+                            if (r.properties.size() > 0) {
+                                properties() {
+                                    r.properties.each { prop ->
+                                        property() {
+                                            name(prop.name)
+                                            value(prop.value)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                explorertypes() {
+                    explorerTypeList.each { e ->
+                        explorertype(name: e.name, key: e.key, smalliconstyle: e.smalliconstyle, bigiconstyle: e.bigiconstyle, reference: e.reference) {
+                            if (e.newResource) {
+                                e.newResource.each { n ->
+                                    newresource(page: n.page, uri: n.uri, order: n.order, autosetnavigation: n.autosetnavigation, autosettittle: n.autosettitle, info:
+                                            n.info)
+                                }
+                            }
+                            if (e.accessControl) {
+                                e.accessControl.each { acc ->
+                                    accesscontrol() {
+                                        e.accessControl.accessEntries.each { ace ->
+                                            acessentry(principal: ace.principal, permissions: ace.permissions)
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
                     }
                 }
             }
 
             files {
-                moduleFiles.files.each { f ->
+                mfiles.each { f ->
                     file {
                         destination {
                             f.destination
@@ -163,12 +174,12 @@ class ManifestBuilder implements AccessExtension {
                         type {
                             f.type
                         }
-                        if(extension.createStructureUUID) {
+                        if (extension.createStructureUUID) {
                             uuidstructure {
                                 f.uuidStructure
                             }
                         }
-                        if(extension.createResourceUUID) {
+                        if (extension.createResourceUUID) {
                             uuidresource {
                                 f.uuidResource
                             }
@@ -186,19 +197,18 @@ class ManifestBuilder implements AccessExtension {
                                         name {
                                             prop.key
                                         }
-                                        value({getMkp().yieldUnescaped('<![CDATA[' +prop.value + ']]>')})
+                                        value({ getMkp().yieldUnescaped('<![CDATA[' + prop.value + ']]>') })
                                     }
                                 } else {
                                     property(type: 'shared') {
                                         name {
                                             prop.key
                                         }
-                                        value({getMkp().yieldUnescaped('<![CDATA[' +prop.value + ']]>')})
+                                        value({ getMkp().yieldUnescaped('<![CDATA[' + prop.value + ']]>') })
                                     }
                                 }
                             }
                         }
-
                         relations {
                             f.relations.each { rel ->
                                 relation(element: rel.element, type: rel.type, invalidate: rel.invalidate)
@@ -224,13 +234,10 @@ class ManifestBuilder implements AccessExtension {
                                 }
                             }
                         }
-
-
                     }
                 }
             }
         }
         writer.flush()
     }
-
 }
