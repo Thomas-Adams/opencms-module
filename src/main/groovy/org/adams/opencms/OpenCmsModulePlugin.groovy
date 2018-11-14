@@ -7,16 +7,15 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Copy
+import org.gradle.api.tasks.bundling.Zip
 
 class OpenCmsModulePlugin implements Plugin<Project> {
 
     static final String GROUP_NAME = 'OpenCms'
     static final String EXT_NAME = 'opencms'
     static final String MODULE_COPY_FILES = 'copyModulesFiles'
-    static final String MODULE_MANIFEST_TASK = 'moduleManifestPreparation'
-    static final String MODILE_COPY_JAR = 'copyJarFile'
+    static final String MODULE_MANIFEST_TASK = 'createManifest'
     static final String MODULE_ZIP_MODULE = 'zipModule'
-    static final String MODULE_COPY_DEPENDENT_JARS = 'copyDependentJarFiles'
     static final String MODULE_LIST_DEPENDENT_JARS = 'listDependentJarFiles'
     static final String MODULE_CREATE_MISSING_META = 'createMissingMetaFiles'
 
@@ -29,9 +28,7 @@ class OpenCmsModulePlugin implements Plugin<Project> {
     static final String MODULE_CREATE_RESOURCES_FROM_MANIFEST = 'createResourcesFromManifest'
     static final String MODULE_CREATE_RESOURCETYPES_FROM_MANIFEST = 'createResourceTypesFromManifest'
     static final String MODULE_COLLECT_DEPENDENT_JARFILES = 'collectDependentJarFiles'
-
     static final String MODULE_CUSTOM_TASK = 'customTask'
-    static final String DEFAULT_VFS_PATH = 'src/main/vfs'
 
 
     @Override
@@ -49,6 +46,35 @@ class OpenCmsModulePlugin implements Plugin<Project> {
             }
         }
 
+
+        project.task(MODULE_CUSTOM_TASK,
+                type: ManifestTask,
+                group: GROUP_NAME,
+                description: 'Create manifest file in build directory') {
+            project.afterEvaluate { p ->
+                dependsOn = ['jar', MODULE_COLLECT_DEPENDENT_JARFILES, MODULE_CREATE_MISSING_META, MODULE_COPY_FILES]
+            }
+        }
+
+        project.task(
+                MODULE_ZIP_MODULE,
+                type: Zip,
+                group: GROUP_NAME,
+                description: 'Zips the modfule files.') {
+            project.afterEvaluate { p ->
+                dependsOn = ['jar', MODULE_COPY_FILES, MODULE_MANIFEST_TASK]
+                archiveName = "${opencms.moduleName}_${opencms.moduleVersion}.zip"
+                def moduleZipDir = p.file("build/${p.opencms.moduleName}_${p.opencms.moduleVersion}")
+                // default value via java plugin: destinationDir = project.distsDir aka build/distributions
+                inputs.dir moduleZipDir
+                outputs.file "${destinationDir}/${archiveName}"
+
+                from(moduleZipDir)
+                includeEmptyDirs = true
+            }
+        }
+
+
         project.task(MODULE_COLLECT_DEPENDENT_JARFILES,
                 type: Copy,
                 group: GROUP_NAME,
@@ -60,6 +86,24 @@ class OpenCmsModulePlugin implements Plugin<Project> {
                     logger.debug("conf name: " + cf)
                     from cf
                     into(p.file("${opencms.moduleDir}/system/modules/${opencms.moduleName}/lib"))
+                }
+            }
+        }
+
+        project.task(MODULE_COPY_FILES,
+                type: Copy,
+                group: GROUP_NAME,
+                description: 'copies module file to modules build directory.'
+        ) {
+            project.afterEvaluate { p ->
+                (p.file("build/${opencms.moduleName}_${opencms.moduleVersion}")).mkdirs()
+                dependsOn = ['jar', MODULE_COLLECT_DEPENDENT_JARFILES, MODULE_CREATE_MISSING_META]
+
+                into(p.file("build/${opencms.moduleName}_${opencms.moduleVersion}"))
+                from(project.file(p.opencms.moduleDir)) {
+                    exclude '**/*_meta.json', '**/ignore.txt', '**/.git/*', '**/.svn/*', '**/CVS/*', '**/.cvsignore', '**/.nbattrs', '**/.project', '**/.classpath',
+                            '**/module.properties', '**/dependencies.xml', '**/resources.xml', '**/resourcetypes.xml', '**/explorertypes.xml', '**/relations' +
+                            '.xml', '**/parameters.xml', '**/exportpoints.xml'
                 }
             }
         }
@@ -76,7 +120,6 @@ class OpenCmsModulePlugin implements Plugin<Project> {
                 }
             }
         }
-
 
         project.task(MODULE_CREATE_META_FROM_MANIFEST,
                 type: CreateMetaFilesFromManifestTask,
@@ -154,10 +197,9 @@ class OpenCmsModulePlugin implements Plugin<Project> {
                 description: 'Create the missing meta files based on the file info'
         ) {
             project.afterEvaluate { p ->
-                dependsOn = []
+                dependsOn = [MODULE_COLLECT_DEPENDENT_JARFILES]
             }
         }
-
     }
 }
 

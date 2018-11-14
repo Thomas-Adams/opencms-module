@@ -3,9 +3,12 @@ package org.adams.opencms.file
 import groovy.json.JsonSlurper
 import org.adams.opencms.beans.*
 import org.adams.opencms.extension.OpenCmsExtension
+import org.adams.opencms.utils.ModuleFileFactory
 import org.apache.commons.io.FilenameUtils
+import org.gradle.api.InvalidUserDataException
 
 import java.text.SimpleDateFormat
+
 /**
  * This class parses throw the whole vfs folder recursively to build up the
  * module's manifest.xml file.
@@ -58,67 +61,20 @@ import java.text.SimpleDateFormat
  * During the parsing of all _meta.json files both approaches are taken into account, however the first approach is
  * the one which comes with the export of the module.
  */
-class ModuleFileHandler  {
+class ModuleFileHandler {
 
     SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z")
 
-    File moduleDir
-
-    OpenCmsExtension openCmsExtension
-
-    List<ModuleFile> moduleFiles = new ArrayList<ModuleFile>();
-
-    def guessFileType(String fileName) {
-        //TODO: configuration of file extensions and their corresponding file type
-        if (new File(fileName).isDirectory())
-            return 'folder'
-        String ext = FilenameUtils.getExtension(fileName)
-        if (ext.endsWith('txt') || ext.endsWith('css') || ext.endsWith('pom') || ext.endsWith('js') || ext.endsWith('json') || ext.endsWith('xml') || ext
-                .endsWith('scss') || ext.endsWith('ts'))
-            return 'plain'
-        if (ext.endsWith('jsp'))
-            return 'jsp'
-        if (ext.endsWith('.png') || ext.endsWith('.gif') || ext.endsWith('jpg') || ext.endsWith('jpeg') || ext.endsWith('png') || ext.endsWith('tiff'))
-            return 'image'
-        if (ext.endsWith('xmlpage'))
-            return 'xmlpage'
-        if (ext.endsWith('containerpage'))
-            return 'containerpage'
-        return 'binary'
+    ModuleFile getModuleFileForJar(File moduleDir, OpenCmsExtension extension) {
+        return ModuleFileFactory.forJarFile(moduleDir, extension)
     }
 
-    ModuleFileHandler(File moduleDir) {
-        this.moduleDir = moduleDir
-    }
+    List<ModuleFile> getModuleFiles(File moduleDir, OpenCmsExtension extension) {
 
-    ModuleFileHandler() {
-    }
-
-
-
-    def isMetaFile(File file) {
-        String name = file.getAbsolutePath()
-        if (name.endsWith('_meta.json') || name.endsWith('dependencies.xml')
-                || name.endsWith('resources.xml')
-                || name.endsWith('parameters.xml')
-                || name.endsWith('explorertypes.xml')
-                || name.endsWith('resourcetypes.xml')
-                || name.endsWith('exportpoints.xml')
-                || name.endsWith('module.properties')
-                || name.endsWith('manifest.xml')
-                || name.endsWith('relations.xml')) {
-            return true
-        }
-        return false
-    }
-
-    def List<ModuleFile> initModuleFiles() {
-
-
+        List<ModuleFile> moduleFiles = new ArrayList<ModuleFile>();
         moduleDir.eachFileRecurse {
-            if (!isMetaFile(it)) {
+            if (!ModuleFileFactory.isMetaFile(it)) {
                 ModuleFile mf = new ModuleFile()
-                mf.setType(guessFileType(it.getAbsolutePath()))
                 String fileName = it.getAbsolutePath().minus(moduleDir.getAbsolutePath())
                 if (fileName.startsWith('/') || fileName.startsWith('\\')) {
                     fileName = fileName.substring(1)
@@ -127,82 +83,89 @@ class ModuleFileHandler  {
                 fileName = FilenameUtils.separatorsToUnix(fileName)
                 println('Module filename ' + fileName)
                 mf.setDestination(fileName)
-                mf.flags = 0
-                mf.dateCreated = new Date()
-                mf.dateLastModified = mf.dateCreated
-                mf.userLastModified = openCmsExtension.user
-                mf.userCreated = openCmsExtension.user
-
-
                 //TODO: distinguish _meta.json for file and folder
-
                 File metaFile = new File(it.getAbsolutePath() + '_meta.json')
-
-
                 if (meta.exists()) {
-
                     metaInfo = new JsonSlurper().parse(metaFile, 'UTF-8')
+                    if (metaInfo.source) {
+                        mf.setSource(metaInfo.source)
+                    }
+                    if (it.isFile()) {
+                        if (!metaInfo.source) {
+                            mf.source = fileName
+                        }
+                    }
+                    if (metaInfo.datelastmodified) {
+                        mf.dateLastModified = formatter.parse(metaInfo.datelastmodified)
+                    } else {
+                        mf.dateLastModified = new Date()
+                    }
+
+                    if (metaInfo.datecreated) {
+                        mf.dateCreated = formatter.parse(metaInfo.datecreated)
+                    } else {
+                        mf.dateCreated = new Date()
+                    }
+
+                    if (metaInfo.userlastmodified) {
+                        mf.userLastModified = metaInfo.userlastmodified
+                    } else {
+                        mf.userLastModified = extension.user
+                    }
+
+                    if (metaInfo.usercreated) {
+                        mf.userCreated = metaInfo.usercreated
+                    } else {
+                        mf.userCreated = extension.user
+                    }
+                    if (metaInfo.flags) {
+                        mf.flags = Integer.parseInt(metaInfo.flags + '')
+                    } else {
+                        mf.flags = 0
+                    }
                     if (metaInfo.type) {
                         mf.setType(meta.type)
                     } else {
-                        mf.setType(guessFileType(it.getAbsolutePath()))
+                        mf.setType(ModuleFileFactory.guessFileType(it.getAbsolutePath()))
                     }
-
                     if (metaInfo.properties) {
                         metaInfo.properties.each {
                             mf.properties.add(new Property(PropertyType.SIMPLE, it.key.toString(), it.value.toString()))
                         }
                     }
-
                     if (metaInfo.sharedProperties) {
                         metaInfo.sharedProperties.each {
                             mf.properties.add(new Property(PropertyType.SHARED, it.key.toString(), it.value.toString()))
                         }
                     }
-
                     if (metaInfo.uuidstructure) {
                         mf.uuidStructure = metaInfo.uuidstructure
                     }
                     if (metaInfo.uuidresource) {
                         mf.uuidResource = metaInfo.uuidresource
                     }
-
-                    if (metaInfo.flags) {
-                        mf.flags = Integer.parseInt(metaInfo.flags, 10)
-                    }
-
-                    if (metaInfo.dateCreated) {
-                        mf.dateCreated = formatter.parse(metaInfo.dateCreated)
-                    }
-                    if (metaInfo.dateModified) {
-                        mf.dateModified = formatter.parse(metaInfo.dateModified)
-                    }
-
-                    if (metaInfo.userCreated) {
-                        mf.userCreated = metaInfo.userCreated
-                    }
-                    if (metaInfo.userLastModified) {
-                        mf.userLastModified = metaInfo.userLastModified
-                    }
-
-
                     handleAccessControl(metaInfo, mf)
-
                     handleRelation(metaInfo, mf)
-
+                } else {
+                    if (!extension.createMetaInfoOnFly) {
+                        throw new InvalidUserDataException('Meta file missing, you need to create the _meta.json file for ${filename} first or activate the ' +
+                                '"createMetaInfoOnFly" flag (set it to true)')
+                    } else {
+                        CreateMissingMetaFiles cm = new CreateMissingMetaFiles()
+                        cm.createMissingMetaFileFromFile(moduleDir, it)
+                        mf = ModuleFileFactory.fromFile(it, moduleDir)
+                    }
                 }
-
                 moduleFiles.add(mf)
             }
-
         }
+        moduleFiles.add(getModuleFileForJar(moduleDir, extension))
         return moduleFiles
     }
 
 
     def handleAccessControl(metaInfo, ModuleFile mf) {
         if (isCollectionOrArray(metaInfo.accessControl)) {
-
             if (metaInfo.accessControl[0].principal) {
                 handleAccessControlSecondApproach(metaInfo)
             } else {
@@ -210,7 +173,6 @@ class ModuleFileHandler  {
             }
         } else throw new Exception("Cannot read access entries")
     }
-
 
     def handleAccessControlFirstApproach(metaInfo, ModuleFile mf) {
         metaInfo.accessControl.each {
@@ -235,9 +197,7 @@ class ModuleFileHandler  {
     }
 
     def handleRelation(metaInfo, ModuleFile mf) {
-
         if (metaInfo.relations && isCollectionOrArray(metaInfo.relations)) {
-
             metaInfo.relations.each {
                 Relation rel = new Relation()
                 rel.element = it.element
@@ -247,7 +207,6 @@ class ModuleFileHandler  {
             }
         }
     }
-
 
     boolean isCollectionOrArray(object) {
         [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }

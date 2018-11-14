@@ -21,15 +21,17 @@ class OpenCmsExtension implements AccessExtension, ModulePropertiesReaderTrait, 
     boolean createResourceUUID = false
     boolean createStructureUUID = true
     boolean buildJar = true
+    String jarFileName = ''
+    boolean createMetaInfoOnFly = true
     String moduleName
     String moduleVersion
     String infoproject = "Online"
     String user = "Admin"
 
-    OpenCmsExtension() {
-    }
 
     OpenCmsExtension(Project project, String moduleDir) {
         this.moduleDir = moduleDir
+        if (this.opencmsExt('jarFileName') == '')
+            this.jarFileName = project.name + '.jar'
     }
 }
