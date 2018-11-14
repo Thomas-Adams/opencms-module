@@ -1,0 +1,21 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/stax-ex-1.7.7.jar",
+    "type": "binary",
+    "flags": 0,
+    "properties": [
+        
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "f3f18a64-45cd-3863-9971-822248826a3a",
+    "datelastmodified": "Tue, 13 Nov 2018 18:50:33 CET",
+    "userlastmodified": "Admin",
+    "datecreated": "Tue, 13 Nov 2018 18:50:33 CET",
+    "usercreated": "Admin",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

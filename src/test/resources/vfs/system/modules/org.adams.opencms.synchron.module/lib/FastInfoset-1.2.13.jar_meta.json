@@ -1,0 +1,23 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/FastInfoset-1.2.13.jar",
+    "source": "system/modules/org.adams.opencms.synchron.module/lib/FastInfoset-1.2.13.jar",
+    "type": "binary",
+    "flags": 0,
+    "properties": [
+        {
+            "type": "SIMPLE",
+            "key": "Title",
+            "value": "FastInfoset-1.2.13"
+        }
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "98eef616-e021-11e8-9e6b-0a0027000013",
+    "datecreated": "Sun, 04 Nov 2018 12:05:53 CET",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

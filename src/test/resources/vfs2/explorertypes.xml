@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<explorertypes>
+  <explorertype mane="subsitemap" key="fileicon.subsitemap" icon="" reference="folder">
+    <newresource uri="newresource.jsp?newresourcetype=subsitemap" info="desc.subsitemap" page="extendedfolder" order="490" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol />
+  </explorertype>
+  <explorertype mane="modelpage" key="fileicon.modelpage" icon="" reference="folder">
+    <newresource uri="" info="" page="none" order="490" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol />
+  </explorertype>
+  <explorertype mane="category" key="fileicon.category" icon="" reference="folder">
+    <newresource uri="" info="" page="none" order="490" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol />
+  </explorertype>
+  <explorertype mane="htmlredirect" key="fileicon.htmlredirect" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=htmlredirect" info="desc.htmlredirect" page="" order="27" autosetnavigation="true" autosettitle="true" />
+    <accesscontrol>
+      <accessentry principal="ROLE.EDITOR" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="containerpage" key="fileicon.containerpage" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=containerpage" info="desc.containerpage" page="" order="25" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.EDITOR" permissions="+r+v+w+c" />
+      <accessentry principal="ROLE.ELEMENT_AUTHOR" permissions="+r+v+w" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="groupcontainer" key="fileicon.groupcontainer" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=groupcontainer" info="desc.groupcontainer" page="" order="26" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.ELEMENT_AUTHOR" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="elementview" key="fileicon.elementview" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=elementview" info="desc.elementview" page="otheroptions" order="999" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.DEVELOPER" permissions="+r+v+w+c" />
+      <accessentry principal="ROLE.WORKPLACE_USER" permissions="+r+v-w-c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="function" key="fileicon.function" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=function" info="desc.function" page="structurecontent" order="999" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.DEVELOPER" permissions="+r+v+w+c" />
+      <accessentry principal="DEFAULT" permissions="+r+v" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="seo_file" key="fileicon.seo_file" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=seo_file" info="desc.seo_file" page="structurecontent" order="998" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol />
+  </explorertype>
+  <explorertype mane="containerpage_template" key="fileicon.containerpage_template" icon="" reference="jsp">
+    <newresource uri="newresource.jsp?newresourcetype=containerpage_template" info="desc.containerpage_template" page="otheroptions" order="22" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol />
+  </explorertype>
+  <explorertype mane="content_folder" key="fileicon.configfolder" icon="" reference="folder">
+    <newresource uri="newresource.jsp?newresourcetype=content_folder" info="desc.configfolder" page="extendedfolder" order="491" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.EDITOR" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="sitemap_config" key="fileicon.sitemap_config" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=sitemap_config" info="desc.sitemap_config" page="otheroptions" order="21" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.EDITOR" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="module_config" key="fileicon.module_config" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=module_config" info="desc.module_config" page="otheroptions" order="22" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.WORKPLACE_USER" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="sitemap_master_config" key="fileicon.sitemap_master_config" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=sitemap_master_config" info="desc.sitemap_master_config" page="otheroptions" order="23" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.WORKPLACE_USER" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="formatter_config" key="fileicon.formatter_config" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=formatter_config" info="desc.formatter_config" page="otheroptions" order="23" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.WORKPLACE_USER" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="inheritance_group" key="fileicon.inheritance_group" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=inheritance_group" info="desc.inheritance_group" page="" order="27" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.ELEMENT_AUTHOR" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="inheritance_config" key="fileicon.inheritance_config" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=inheritance_config" info="desc.inheritance_config" page="" order="28" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.ELEMENT_AUTHOR" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="xmlvfsbundle" key="fileicon.xmlvfsbundle" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=xmlvfsbundle" info="desc.xmlvfsbundle" page="otheroptions" order="28" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.WORKPLACE_USER" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="propertyvfsbundle" key="fileicon.propertyvfsbundle" icon="" reference="plain">
+    <newresource uri="newresource.jsp?newresourcetype=propertyvfsbundle" info="desc.propertyvfsbundle" page="otheroptions" order="30" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.WORKPLACE_USER" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="modelgroup" key="fileicon.modelgroup" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=modelgroup" info="desc.modelgroup" page="" order="50" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.DEVELOPER" permissions="+r+v+w+c" />
+      <accessentry principal="ROLE.ELEMENT_AUTHOR" permissions="+r+v" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="macro_formatter" key="fileicon.macro_formatter" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=macro_formatter" info="desc.macro_formatter" page="otheroptions" order="24" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.DEVELOPER" permissions="+r+v+w+c" />
+      <accessentry principal="ROLE.ELEMENT_AUTHOR" permissions="+r+v" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="view_basic" key="fileicon.view_basic" icon="" reference="folder">
+    <newresource uri="" info="desc.otheroptions" page="" order="1000" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="DEFAULT" permissions="+r+v" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="view_folders" key="fileicon.view_folders" icon="" reference="folder">
+    <newresource uri="" info="desc.otheroptions" page="" order="2100" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="DEFAULT" permissions="+r+v" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="view_configs" key="fileicon.view_configs" icon="" reference="folder">
+    <newresource uri="" info="desc.otheroptions" page="" order="2200" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="DEFAULT" permissions="+r+v" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="view_other" key="fileicon.view_other" icon="" reference="folder">
+    <newresource uri="" info="" page="" order="2300" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="DEFAULT" permissions="+r+v" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="bundledescriptor" key="fileicon.bundledescriptor" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=bundledescriptor" info="desc.bundledescriptor" page="otheroptions" order="29" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.WORKPLACE_USER" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="listconfig" key="fileicon.listconfig" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=listconfig" info="desc.listconfig" page="otheroptions" order="29" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.EDITOR" permissions="+r+v" />
+      <accessentry principal="ROLE.LIST_EDITOR" permissions="+r+v+w+c" />
+    </accesscontrol>
+  </explorertype>
+  <explorertype mane="flex_formatter" key="fileicon.flex_formatter" icon="" reference="xmlcontent">
+    <newresource uri="newresource_xmlcontent.jsp?newresourcetype=flex_formatter" info="desc.flex_formatter" page="otheroptions" order="24" autosetnavigation="false" autosettitle="false" />
+    <accesscontrol>
+      <accessentry principal="ROLE.DEVELOPER" permissions="+r+v+w+c" />
+      <accessentry principal="ROLE.ELEMENT_AUTHOR" permissions="+r+v" />
+    </accesscontrol>
+  </explorertype>
+</explorertypes>

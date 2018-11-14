@@ -1,0 +1,21 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/FastInfoset-1.2.13.jar",
+    "type": "binary",
+    "flags": 0,
+    "properties": [
+        
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "b74011ff-b1b3-34e3-a97b-f5f0fbc0a718",
+    "datelastmodified": "Tue, 13 Nov 2018 18:50:33 CET",
+    "userlastmodified": "Admin",
+    "datecreated": "Tue, 13 Nov 2018 18:50:33 CET",
+    "usercreated": "Admin",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

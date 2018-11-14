@@ -1,0 +1,23 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/javax.xml.soap-api-1.3.7.jar",
+    "source": "system/modules/org.adams.opencms.synchron.module/lib/javax.xml.soap-api-1.3.7.jar",
+    "type": "binary",
+    "flags": 0,
+    "properties": [
+        {
+            "type": "SIMPLE",
+            "key": "Title",
+            "value": "javax.xml.soap-api-1.3.7"
+        }
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "990675c8-e021-11e8-9e6b-0a0027000013",
+    "datecreated": "Sun, 04 Nov 2018 12:05:54 CET",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

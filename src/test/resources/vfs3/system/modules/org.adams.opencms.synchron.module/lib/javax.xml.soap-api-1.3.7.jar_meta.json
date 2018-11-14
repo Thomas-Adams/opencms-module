@@ -1,0 +1,21 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/javax.xml.soap-api-1.3.7.jar",
+    "type": "binary",
+    "flags": 0,
+    "properties": [
+        
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "d7d6affc-8878-327d-b9ec-4c481360a0fc",
+    "datelastmodified": "Tue, 13 Nov 2018 18:50:33 CET",
+    "userlastmodified": "Admin",
+    "datecreated": "Tue, 13 Nov 2018 18:50:33 CET",
+    "usercreated": "Admin",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

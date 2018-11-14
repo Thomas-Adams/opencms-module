@@ -2,12 +2,25 @@
     "destination": "system",
     "source": "",
     "type": "folder",
+    "flags": 0,
     "properties": [
         
     ],
     "relations": [
         
     ],
-    "uuidstructure": "",
-    "uuidresource": ""
+    "uuidstructure": "6476b74a-dea2-11e8-8031-0a0027000013",
+    "datecreated": "Fri, 02 Nov 2018 14:22:48 CET",
+    "accesscontrol": {
+        "accessentries": [
+            {
+                "principal": "ROLE.WORKPLACE_USER",
+                "flags": 514,
+                "permissionset": {
+                    "allowed": 1,
+                    "denied": 0
+                }
+            }
+        ]
+    }
 }

@@ -1,0 +1,21 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/woodstox-core-asl-4.4.1.jar",
+    "type": "binary",
+    "flags": 0,
+    "properties": [
+        
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "149e1f74-79f7-3c3b-b1ed-6c87cad026ca",
+    "datelastmodified": "Tue, 13 Nov 2018 18:50:33 CET",
+    "userlastmodified": "Admin",
+    "datecreated": "Tue, 13 Nov 2018 18:50:33 CET",
+    "usercreated": "Admin",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

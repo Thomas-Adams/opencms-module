@@ -30,7 +30,7 @@ trait ModulePropertiesReaderTrait {
         Properties properties = new Properties()
         properties.load(new FileInputStream(modulePropertiesFile))
         Info info = new Info()
-        info.info_project = properties.get("info.project")
+        info.info_project = properties.get("info.infoproject")
         info.opencms_version = properties.get("info.opencms_version")
         info.export_version = properties.get("info.export_version")
         info.creator = properties.get("info.creator")

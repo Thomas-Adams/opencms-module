@@ -1,0 +1,21 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/jaxb-core-2.2.11.jar",
+    "type": "binary",
+    "flags": 0,
+    "properties": [
+        
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "f4df6086-7c39-3a17-9c34-cb0f4dd40fea",
+    "datelastmodified": "Tue, 13 Nov 2018 18:50:33 CET",
+    "userlastmodified": "Admin",
+    "datecreated": "Tue, 13 Nov 2018 18:50:33 CET",
+    "usercreated": "Admin",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

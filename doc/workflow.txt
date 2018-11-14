@@ -1,0 +1,46 @@
+Workflow Module initialization
+
+1. Build the module structure in OpenCms and export it (including jar and class file dummies) :	
+	
+2. Put files into src/main/vfs directory
+
+3. Run task to create Xml snippets and module.properties
+
+4. Run task to create _meta.json files
+
+============================================================
+
+
+Workflow add new module resources
+
+1. Run create _meta.json file task
+	(create own uuidstructure value)
+
+2. adapt _meta.json manually if necessary
+
+
+============================================================
+
+Workflow Build module
+
+============================================================
+
+Workflow Install module
+
+============================================================
+
+Workflow Overwrite meta files 
+
+============================================================
+
+Todo
+
+create meta files from manifest.xml
+create xml snippets from manifest.xml
+
+create missing meta files from file resource
+
+cleanup the mess in the tasks
+ 
+
+

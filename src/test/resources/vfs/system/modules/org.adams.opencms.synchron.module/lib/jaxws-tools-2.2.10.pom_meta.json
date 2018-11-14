@@ -1,0 +1,23 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/jaxws-tools-2.2.10.pom",
+    "source": "system/modules/org.adams.opencms.synchron.module/lib/jaxws-tools-2.2.10.pom",
+    "type": "plain",
+    "flags": 0,
+    "properties": [
+        {
+            "type": "SIMPLE",
+            "key": "Title",
+            "value": "jaxws-tools-2.2.10"
+        }
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "994d42e0-e021-11e8-9e6b-0a0027000013",
+    "datecreated": "Sun, 04 Nov 2018 12:05:54 CET",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

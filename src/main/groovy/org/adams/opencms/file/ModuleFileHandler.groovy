@@ -3,11 +3,9 @@ package org.adams.opencms.file
 import groovy.json.JsonSlurper
 import org.adams.opencms.beans.*
 import org.adams.opencms.extension.OpenCmsExtension
-import org.adams.opencms.tasks.AccessExtension
 import org.apache.commons.io.FilenameUtils
 
 import java.text.SimpleDateFormat
-
 /**
  * This class parses throw the whole vfs folder recursively to build up the
  * module's manifest.xml file.
@@ -60,7 +58,7 @@ import java.text.SimpleDateFormat
  * During the parsing of all _meta.json files both approaches are taken into account, however the first approach is
  * the one which comes with the export of the module.
  */
-class ModuleFileHandler implements AccessExtension {
+class ModuleFileHandler  {
 
     SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z")
 
@@ -138,10 +136,12 @@ class ModuleFileHandler implements AccessExtension {
 
                 //TODO: distinguish _meta.json for file and folder
 
-                File meta = new File(it.getAbsolutePath() + '_meta.json')
+                File metaFile = new File(it.getAbsolutePath() + '_meta.json')
+
+
                 if (meta.exists()) {
 
-                    metaInfo = new JsonSlurper().parse(meta, 'UTF-8')
+                    metaInfo = new JsonSlurper().parse(metaFile, 'UTF-8')
                     if (metaInfo.type) {
                         mf.setType(meta.type)
                     } else {
@@ -191,6 +191,7 @@ class ModuleFileHandler implements AccessExtension {
                     handleRelation(metaInfo, mf)
 
                 }
+
                 moduleFiles.add(mf)
             }
 
