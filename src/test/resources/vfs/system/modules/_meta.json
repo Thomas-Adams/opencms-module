@@ -1,0 +1,26 @@
+{
+    "destination": "system/modules",
+    "source": "",
+    "type": "folder",
+    "flags": 0,
+    "properties": [
+        
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "6a6c7176-dea2-11e8-8031-0a0027000013",
+    "datecreated": "Fri, 02 Nov 2018 14:22:58 CET",
+    "accesscontrol": {
+        "accessentries": [
+            {
+                "principal": "ROLE.WORKPLACE_USER",
+                "flags": 514,
+                "permissionset": {
+                    "allowed": 5,
+                    "denied": 0
+                }
+            }
+        ]
+    }
+}

@@ -6,8 +6,6 @@ import groovy.json.JsonOutput
 import org.adams.opencms.beans.*
 import org.adams.opencms.extension.OpenCmsExtension
 import org.adams.opencms.tasks.AccessExtension
-import org.gradle.api.Project
-import org.gradle.api.tasks.TaskAction
 
 import java.text.SimpleDateFormat
 
@@ -19,23 +17,11 @@ class ManifestParser implements AccessExtension {
 
 
     ManifestParser(OpenCmsExtension extension) {
-        this.project = null
         this.extension = extension
-    }
-
-    ManifestParser(Project project, OpenCmsExtension extension) {
-        this.project = project
-        this.extension = extension
-
-    }
-
-    def File initParser(Project project, OpenCmsExtension extension) {
-        return project.file(extension.moduleDir).getAbsolutePath() + 'manifest.xml'
     }
 
     Manifest parseExistingManifestFile(File manifestFile) {
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT)
-
         Manifest manifest = new Manifest()
 
 
@@ -181,11 +167,13 @@ class ManifestParser implements AccessExtension {
                             List<AccessEntry> accessEntries = new ArrayList<>()
                             it.accesscontrol.accessentry.findAll().each { ace ->
                                 AccessEntry accessEntry = new AccessEntry()
-                                accessEntry.flags = ace.flags ? Integer.parseInt(ace.flags) : 0
+                                accessEntry.flags = ace.flags ? Integer.parseInt(ace.flags.text()) : 0
                                 accessEntry.principal = ace.uuidprincipal ? ace.uuidprincipal : null
                                 if (it.permissionset) {
-                                    accessEntry.permissionSet.allowed = ace.permissionset && ace.permissionset.allowed ? ace.permissionset.allowed : accessEntry.permissionSet.allowed
-                                    accessEntry.permissionSet.denied = ace.permissionset && ace.permissionset.denied ? ace.permissionset.denied : accessEntry.permissionSet.denied
+                                    accessEntry.permissionSet.allowed = ace.permissionset && ace.permissionset.allowed ? Integer.parseInt(ace.permissionset
+                                            .allowed.text()) : Integer.parseInt(accessEntry.permissionSet.allowed.text())
+                                    accessEntry.permissionSet.denied = ace.permissionset && ace.permissionset.denied ? Integer.parseInt(ace.permissionset
+                                            .denied.text()) : Integer.parseInt(accessEntry.permissionSet.denied.text())
                                 } else {
                                     accessEntry.permissionSet = null
                                 }
@@ -206,26 +194,18 @@ class ManifestParser implements AccessExtension {
         return manifest
     }
 
-    @TaskAction
-    def createMetaFiles() {
+    def createMetaFiles(File manifestFile, File moduleDir) {
         ObjectMapper objectMapper = new ObjectMapper()
         objectMapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT))
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_ABSENT);
-        manifestFile = initParser(getProject(), getOpencmsExtension())
         Manifest manifest = parseExistingManifestFile(manifestFile)
-        moduleDir = extension.moduleVfsDirectory
-        moduleDir = moduleDir.replace('\\', '/')
-        if (!moduleDir.endsWith("/")) {
-            moduleDir += "/"
-        }
-
         manifest.moduleFiles.files.each { it ->
             String metaName = ''
             String f = ''
             if (it.source && it.source != '') {
-                f = moduleDir + (it.source.startsWith('/') ? it.source.substring(1) : it.source)
+                f = moduleDir.getAbsolutePath() + '/' + (it.source.startsWith('/') ? it.source.substring(1) : it.source)
             } else {
-                f = moduleDir + (it.destination.startsWith('/') ? it.destination.substring(1) : it.destination)
+                f = moduleDir.getAbsolutePath() + '/' + (it.destination.startsWith('/') ? it.destination.substring(1) : it.destination)
             }
 
             if (it.type.equals('folder')) {
@@ -251,10 +231,7 @@ class ManifestParser implements AccessExtension {
             fileWriter.write(JsonOutput.prettyPrint(json))
             fileWriter.flush()
             fileWriter.close()
-
         }
-
-
     }
 
 }

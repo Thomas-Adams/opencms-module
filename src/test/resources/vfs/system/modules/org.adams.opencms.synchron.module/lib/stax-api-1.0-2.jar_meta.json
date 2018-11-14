@@ -1,0 +1,23 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/stax-api-1.0-2.jar",
+    "source": "system/modules/org.adams.opencms.synchron.module/lib/stax-api-1.0-2.jar",
+    "type": "binary",
+    "flags": 0,
+    "properties": [
+        {
+            "type": "SIMPLE",
+            "key": "Title",
+            "value": "stax-api-1.0-2"
+        }
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "997b09b8-e021-11e8-9e6b-0a0027000013",
+    "datecreated": "Sun, 04 Nov 2018 12:05:54 CET",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

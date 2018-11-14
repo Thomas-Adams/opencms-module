@@ -21,6 +21,9 @@ class ManifestBuilder implements AccessExtension {
     File targetFile
     Manifest manifest
 
+    void setProject(Project project) {
+        this.project = project
+    }
     List<ModuleFile> jarDependencies
 
     ManifestBuilder(List<ModuleFile> jarDependencies ) {

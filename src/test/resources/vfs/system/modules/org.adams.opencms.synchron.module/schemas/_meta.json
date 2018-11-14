@@ -1,0 +1,19 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/schemas",
+    "source": "",
+    "type": "folder",
+    "flags": 0,
+    "properties": [
+        
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "adb9085c-e020-11e8-9e6b-0a0027000013",
+    "datecreated": "Sun, 04 Nov 2018 11:59:19 CET",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

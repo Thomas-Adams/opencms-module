@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <resource uri="/system/handler/" />
+  <resource uri="/system/login/" />
+  <resource uri="/system/modules/org.opencms.base/" />
+  <resource uri="/system/userimages/temp/" />
+  <resource uri="/system/workplace/commons/about.jsp" />
+  <resource uri="/system/workplace/commons/editor-backlink.html" />
+  <resource uri="/system/workplace/commons/resourceIcon.css" />
+  <resource uri="/system/workplace/commons/gallery.jsp" />
+  <resource uri="/system/workplace/commons/open_ade_gallery.jsp" />
+  <resource uri="/system/workplace/commons/postupload_basicproperties.jsp" />
+  <resource uri="/system/workplace/commons/postupload_useconfig.jsp" />
+  <resource uri="/system/workplace/commons/postupload.jsp" />
+  <resource uri="/system/workplace/commons/properties.jsp" />
+  <resource uri="/system/workplace/commons/direct_publish.jsp" />
+  <resource uri="/system/workplace/commons/publish_project.jsp" />
+  <resource uri="/system/workplace/commons/publish.jsp" />
+  <resource uri="/system/workplace/commons/download-aliases.jsp" />
+  <resource uri="/system/workplace/commons/import-aliases.jsp" />
+  <resource uri="/system/workplace/commons/sitemap.jsp" />
+  <resource uri="/system/workplace/commons/upload.jsp" />
+  <resource uri="/system/workplace/commons/uploadAction.jsp" />
+  <resource uri="/system/workplace/resources/commons/notemplate.png" />
+  <resource uri="/system/workplace/resources/filetypes/resourceNotFoundBig.png" />
+  <resource uri="/system/workplace/resources/filetypes/resourceNotFoundSmall.png" />
+</resources>

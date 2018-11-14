@@ -32,5 +32,8 @@ class ModuleFile {
     List<Relation> relations = new ArrayList<>()
 
     @JsonProperty("accesscontrol")
-    AccessControl accessControl
+    AccessControl accessControl = new AccessControl()
+
+
+
 }

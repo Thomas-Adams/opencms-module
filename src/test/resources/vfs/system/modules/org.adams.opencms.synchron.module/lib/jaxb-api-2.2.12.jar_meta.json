@@ -1,0 +1,23 @@
+{
+    "destination": "system/modules/org.adams.opencms.synchron.module/lib/jaxb-api-2.2.12.jar",
+    "source": "system/modules/org.adams.opencms.synchron.module/lib/jaxb-api-2.2.12.jar",
+    "type": "binary",
+    "flags": 0,
+    "properties": [
+        {
+            "type": "SIMPLE",
+            "key": "Title",
+            "value": "jaxb-api-2.2.12"
+        }
+    ],
+    "relations": [
+        
+    ],
+    "uuidstructure": "990b30bb-e021-11e8-9e6b-0a0027000013",
+    "datecreated": "Sun, 04 Nov 2018 12:05:54 CET",
+    "accesscontrol": {
+        "accessentries": [
+            
+        ]
+    }
+}

@@ -1,11 +1,14 @@
 package org.adams.opencms.beans
 
+import groovy.transform.AutoClone
+
+@AutoClone
 class ResourceType {
 
     String clazz
     String name
     String id
     List<ResourceTypeProperty> properties = new ArrayList<>()
-    Parameter param;
+    List<Parameter> params = new ArrayList<>();
 
 }

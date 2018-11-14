@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourcetypes>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlContainerPage" name="containerpage" id="13">
+    <param name="formatter_gallery_preview">/system/workplace/editors/ade/container-preview-formatter.jsp</param>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlAdeConfiguration" name="groupcontainer" id="17">
+    <param name="schema">/system/modules/org.opencms.ade.containerpage/schemas/group_container.xsd</param>
+    <properties>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[true]]></value>
+      </property>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlAdeConfiguration" name="elementview" id="310">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/element_view.xsd</param>
+    <properties>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[true]]></value>
+      </property>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeJsp" name="containerpage_template" id="21" />
+  <type class="org.opencms.file.types.CmsResourceTypeXmlContent" name="function" id="22">
+    <param name="schema">/system/modules/org.opencms.ade.containerpage/schemas/function.xsd</param>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeHtmlRedirect" name="htmlredirect" id="15">
+    <param name="schema">/system/modules/org.opencms.ade.sitemap/schemas/redirect.xsd</param>
+    <properties>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeFolderSubSitemap" name="subsitemap" id="23" />
+  <type class="org.opencms.file.types.CmsResourceTypeFolderExtended" name="content_folder" id="24" />
+  <type class="org.opencms.file.types.CmsResourceTypeXmlAdeConfiguration" name="sitemap_config" id="14">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/sitemap_config.xsd</param>
+    <properties>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlAdeConfiguration" name="module_config" id="28">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/module_config.xsd</param>
+    <properties>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlAdeConfiguration" name="formatter_config" id="308">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/formatters/new_formatter.xsd</param>
+    <properties>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeSeoFile" name="seo_file" id="305">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/seo_file.xsd</param>
+    <properties>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlAdeConfiguration" name="inheritance_group" id="303">
+    <param name="schema">/system/modules/org.opencms.ade.containerpage/schemas/inheritance_group.xsd</param>
+    <properties>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[true]]></value>
+      </property>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlContent" name="inheritance_config" id="304">
+    <param name="schema">/system/modules/org.opencms.ade.containerpage/schemas/inheritance_config.xsd</param>
+    <properties>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlContent" name="xmlvfsbundle" id="306">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/xmlvfsbundle.xsd</param>
+    <properties>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypePlain" name="propertyvfsbundle" id="307">
+    <properties>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlAdeConfiguration" name="sitemap_master_config" id="313">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/sitemap_master_config.xsd</param>
+    <properties>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[true]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlContainerPage" name="modelgroup" id="314">
+    <param name="formatter_gallery_preview">/system/workplace/editors/ade/container-preview-formatter.jsp</param>
+    <properties>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[true]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeMacroFormatter" name="macro_formatter" id="315">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/formatters/macro_formatter.xsd</param>
+    <properties>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>cache</name>
+        <value><![CDATA[container-element;locale;uri]]></value>
+      </property>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlAdeConfiguration" name="bundledescriptor" id="320">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/bundledescriptor.xsd
+				</param>
+    <properties>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeXmlAdeConfiguration" name="listconfig" id="321">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/list_config.xsd
+				</param>
+    <properties>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+    </properties>
+  </type>
+  <type class="org.opencms.file.types.CmsResourceTypeMacroFormatter" name="flex_formatter" id="322">
+    <param name="schema">/system/modules/org.opencms.ade.config/schemas/formatters/flex_formatter.xsd</param>
+    <properties>
+      <property>
+        <name>locale-available</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>locale</name>
+        <value><![CDATA[en]]></value>
+      </property>
+      <property>
+        <name>cache</name>
+        <value><![CDATA[container-element;locale;uri]]></value>
+      </property>
+      <property>
+        <name>search.exclude</name>
+        <value><![CDATA[all]]></value>
+      </property>
+    </properties>
+  </type>
+</resourcetypes>
