@@ -8,6 +8,9 @@ trait AccessExtension {
      * Since Project API throws exception if asked for a non-existing extension it gets wrapped here for convenience
      * @return
      */
+
+    Project project
+
     def opencmsExt(String key) {
         return opencmsExt(key, null)
     }
@@ -28,5 +31,4 @@ trait AccessExtension {
     void setProject(Project project) {
         this.project = project
     }
-
 }
