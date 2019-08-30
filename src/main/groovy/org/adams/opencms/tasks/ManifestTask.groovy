@@ -1,8 +1,6 @@
 package org.adams.opencms.tasks
 
-
 import org.adams.opencms.manifest.ManifestBuilder
-import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 
 import java.text.SimpleDateFormat
@@ -11,7 +9,6 @@ class ManifestTask extends OpenCmsPluginTask implements AccessExtension {
 
     File manifestFile;
 
-    @OutputFile
     File getManifestFile() {
         return manifestFile
     }
@@ -20,6 +17,7 @@ class ManifestTask extends OpenCmsPluginTask implements AccessExtension {
     void init() {
         manifestFile = new File(getProject().getBuildDir().getAbsolutePath() + File.separator + getExtension().moduleName + '_' + getExtension().moduleVersion
                 + File.separator + getExtension().manifestFileName)
+        println(manifestFile.getAbsolutePath())
     }
 
     @TaskAction

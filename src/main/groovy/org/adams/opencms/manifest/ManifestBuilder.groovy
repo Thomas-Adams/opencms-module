@@ -14,16 +14,16 @@ class ManifestBuilder {
     def createManifestFile(File targetFile, File moduleDir, OpenCmsExtension extension) {
         Manifest manifest = new Manifest()
         manifest.info.creator = extension.userInstalled
-        manifest.info.opencms_version = extension.opencCmsVersion
-        manifest.info.info_project = extension.project
+        manifest.info.opencms_version = extension.openCmsVersion
+        manifest.info.info_project = extension.info_project
         manifest.info.export_version = extension.exportVersion
-        manifest.module.version = extension.version
+        manifest.module.version = extension.moduleVersion
         manifest.module.userInstalled = extension.userInstalled
         manifest.module.dateCreated = extension.dateCreated
         manifest.module.importScript = extension.importScript
         manifest.module.group = extension.group
         manifest.module.excludeResources = extension.excludeResources
-        manifest.module.name = extension.name
+        manifest.module.name = extension.moduleName
         manifest.module.clazz = extension.clazz
         manifest.module.resources = extension.resources
         manifest.module.exportPoints = extension.exportPoints

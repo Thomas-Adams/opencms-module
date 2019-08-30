@@ -13,6 +13,7 @@ class OpenCmsModulePlugin implements Plugin<Project> {
 
     static final String GROUP_NAME = 'OpenCms'
     static final String EXT_NAME = 'opencms'
+    static final String MODULE_INIT_EXTENSION = 'initExtension'
     static final String MODULE_COPY_FILES = 'copyModulesFiles'
     static final String MODULE_MANIFEST_TASK = 'createManifest'
     static final String MODULE_ZIP_MODULE = 'zipModule'
@@ -35,7 +36,7 @@ class OpenCmsModulePlugin implements Plugin<Project> {
     void apply(Project project) {
 
         project.apply(plugin: 'base')
-        def opencms = project.extensions.create(EXT_NAME, OpenCmsExtension)
+        def opencms = project.extensions.create(EXT_NAME, OpenCmsExtension, project,  'src/main/vfs')
 
         project.task(MODULE_CUSTOM_TASK,
                 type: CustomTask,
@@ -46,13 +47,21 @@ class OpenCmsModulePlugin implements Plugin<Project> {
             }
         }
 
+        project.task(MODULE_INIT_EXTENSION, type: DefaultTask, group: GROUP_NAME, description: 'Initialize extension values') {
+            project.afterEvaluate { p ->
+                dependsOn = []
+                opencms.init()
+            }
+        }
 
-        project.task(MODULE_CUSTOM_TASK,
+
+
+        project.task(MODULE_MANIFEST_TASK,
                 type: ManifestTask,
                 group: GROUP_NAME,
                 description: 'Create manifest file in build directory') {
             project.afterEvaluate { p ->
-                dependsOn = ['jar', MODULE_COLLECT_DEPENDENT_JARFILES, MODULE_CREATE_MISSING_META, MODULE_COPY_FILES]
+                dependsOn = ['jar', MODULE_INIT_EXTENSION, MODULE_COLLECT_DEPENDENT_JARFILES, MODULE_CREATE_MISSING_META, MODULE_COPY_FILES]
             }
         }
 
@@ -80,7 +89,7 @@ class OpenCmsModulePlugin implements Plugin<Project> {
                 group: GROUP_NAME,
                 description: 'Collects the dependent jar files and copies them into the "/system/modules/<moduleName>/lib" folder') {
             project.afterEvaluate { p ->
-                dependsOn = []
+                dependsOn = [MODULE_INIT_EXTENSION]
                 Configuration conf = project.getConfigurations().getByName('compile')
                 conf.each { cf ->
                     logger.debug("conf name: " + cf)
@@ -97,7 +106,7 @@ class OpenCmsModulePlugin implements Plugin<Project> {
         ) {
             project.afterEvaluate { p ->
                 (p.file("build/${opencms.moduleName}_${opencms.moduleVersion}")).mkdirs()
-                dependsOn = ['jar', MODULE_COLLECT_DEPENDENT_JARFILES, MODULE_CREATE_MISSING_META]
+                dependsOn = ['jar', MODULE_INIT_EXTENSION, MODULE_COLLECT_DEPENDENT_JARFILES, MODULE_CREATE_MISSING_META]
 
                 into(p.file("build/${opencms.moduleName}_${opencms.moduleVersion}"))
                 from(project.file(p.opencms.moduleDir)) {
@@ -113,7 +122,7 @@ class OpenCmsModulePlugin implements Plugin<Project> {
                 group: GROUP_NAME,
                 description: 'Lists all the dependent jar files of the module java code') {
             project.afterEvaluate { p ->
-                dependsOn = []
+                dependsOn = [MODULE_INIT_EXTENSION]
                 Configuration conf = project.getConfigurations().getByName('compile')
                 conf.each { cf ->
                     println(cf)
